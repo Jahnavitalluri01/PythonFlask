@@ -36,6 +36,20 @@ def create_friend():
         print("Exception occured ="+e)
         db.session.rollback()
         return jsonify({"error":str(e)}), 500
+    
+@app.route("/api/delfriend/<int:id>",methods=["DELETE"])
+def delete_friend(id):
+    Friends=Friend.query.all()
+    print(Friends)
+    found=False
+    for friend in Friends:
+        if(friend.id==id):
+            found=True
+            db.session.delete(friend)
+            db.session.commit()
+            return jsonify({"msg":"Friend found","friend":friend.convert_to_json()}),200
+    if(found==False):
+        return jsonify({"msg":"Friend is not available to delete"}),500
        
 
 
