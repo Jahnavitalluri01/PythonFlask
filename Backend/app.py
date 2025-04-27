@@ -9,8 +9,19 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 
 db=SQLAlchemy(app)
 
-print("In app.py")
-if __name__=="__main__":
-    app.run(debug=True)
+import routes
 
-# app.run(debug=True)
+print("In app.py")
+
+
+with app.app_context():
+    db.create_all()
+
+# Define a route for the home page
+@app.route("/")
+def home():
+    return "Hello, Flask!"
+
+# Check if the script is run directly, then start the server
+if __name__ == "__main__":
+    app.run(debug=True)
