@@ -63,6 +63,7 @@ def update_friend(id):
         Friendtoupdate.role=data.get("role")
         Friendtoupdate.gender=data.get("gender")
         Friendtoupdate.description=data.get("description")
+        db.session.commit()
         return jsonify({"msg":"Update operation Successful!!","FriendUpdated":Friendtoupdate.convert_to_json()})
 
     except Exception as e:
