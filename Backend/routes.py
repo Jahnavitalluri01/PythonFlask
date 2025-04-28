@@ -50,6 +50,26 @@ def delete_friend(id):
             return jsonify({"msg":"Friend found","friend":friend.convert_to_json()}),200
     if(found==False):
         return jsonify({"msg":"Friend is not available to delete"}),500
+
+@app.route("/api/updatefriend/<int:id>",methods=["PATCH"])
+def update_friend(id):
+    try:
+        Friendtoupdate=Friend.query.get(id)
+        if Friendtoupdate is None:
+            return jsonify({"msg":"Could not find friend"}), 500
+        data=request.json
+
+        Friendtoupdate.name=data.get("name")
+        Friendtoupdate.role=data.get("role")
+        Friendtoupdate.gender=data.get("gender")
+        Friendtoupdate.description=data.get("description")
+        return jsonify({"msg":"Update operation Successful!!","FriendUpdated":Friendtoupdate.convert_to_json()})
+
+    except Exception as e:
+        db.session.rollback()
+        print(e)
+        return jsonify({"error":"Some error occured in Update Friend"}), 500
+
        
 
 
